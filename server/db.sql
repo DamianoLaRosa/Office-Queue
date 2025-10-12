@@ -23,3 +23,10 @@ CREATE TABLE IF NOT EXISTS tickets (
     code TEXT UNIQUE NOT NULL,
     FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS ticket_states(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ticket_id INTEGER NOT NULl,
+    state_value TEXT NOT NULL,
+    FOREIGN KEY (ticket_id) REFERENCES ticket_states(id)
+)
