@@ -33,7 +33,7 @@ app.get('/api/services', async (req, res) => {
   try {
     const services = await getAllServices();
     return res.status(200).json(services); 
-    //maybe you pass to the client only name of the service and the waiting time
+    //maybe you pass to the client only the name of the service and the waiting time, not the id
   } catch (err) {
     return res.status(500).json({ error: 'Internal server error' });
   }

@@ -1,4 +1,4 @@
-import { QueueSystem, Counter, Service } from "./Gmodels.mjs";
+import { QueueSystem, Counter, Service } from "./server/Gmodels.mjs";
 
 // to execute this code commands: cd server;npm i; node test_models.mjs
 
