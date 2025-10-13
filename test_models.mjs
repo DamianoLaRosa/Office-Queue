@@ -1,6 +1,6 @@
 import { QueueSystem, Counter, Service } from "./server/Gmodels.mjs";
 
-// to execute this code commands: cd server;npm i; node test_models.mjs
+// to execute this code commands: node test_models.mjs
 
 const q = new QueueSystem();
 

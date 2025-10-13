@@ -5,11 +5,6 @@ terminal 2: cd client;npm i;npm run dev
 
 # Office Queue
 
-ticket:
-Counter: id, types_service
-Service: id, name, time
-
-
 ## Counters, types and initial configuration
 - The office consists of a set of counters that are usually identified by numbers
 - Each counter can handle several types of services, which are defined at configuration time: a tag name that identifies the service type and an estimate of the average time needed to process that service type
@@ -25,13 +20,11 @@ Service: id, name, time
 
 ## Officer
 - When an officer at a counter is ready, he tells the system to call the next client
-- Based on the counter id (it knows the services
-it can offer) the system returns the ticket code that will be handled by that counter
+- Based on the counter id (it knows the services it can offer) the system returns the ticket code that will be handled by that counter
 
 ## Rules to choose the next ticket to be served
 - select the first number from the longest queue among those corresponding to the service types the counter can handle
-- If two or more queues have the same length, the queue
-associated with request type having the lowest service time is selected
+- If two or more queues have the same length, the queue associated with request type having the lowest service time is selected
 - If all the queues the counter can serve are empty, the system does nothing
 - Selected tickets are considered served and removed from their queue (which is therefore shortened by one)
 - The system sends notifications concerning the length of the queues and the ticket codes called to the counters
@@ -50,5 +43,5 @@ where the sum is done on all the counters:
 
 ## Manager
 - A manager in the office must be able to know how many customers have been served for each service type
--  In addition the system should provide the number of customers each counter has served, further divided by service type
+- In addition the system should provide the number of customers each counter has served, further divided by service type
 - Stats must be provided per day, week, month
