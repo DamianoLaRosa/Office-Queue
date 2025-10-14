@@ -3,10 +3,11 @@
 /*BASIC CLASSES TO TEST*/
 
 // Service type definition
-export function Service(id, name, time) {
-  this.id = id;       // service ID, e.g. "1"
-  this.name = name;   // service name, e.g. "Payments"
-  this.time = time;   // average time to serve this type (in minutes)
+export function Service(service_id, name, avg_service_time,tag) {
+  this.service_id = service_id;      
+  this.name = name;   
+  this.avg_service_time = avg_service_time;   
+  this.tag=tag;
 }
 
 // Record that tracks how many customers a counter has served per service type
@@ -16,36 +17,31 @@ export function Record_counter(type, count = 0) {
 }
 
 // Ticket issued to a client
-export function Ticket(id, service_type, service_code, waiting_time = 0) {
-  this.id = id;                  // unique ticket ID
-  this.service_type = service_type; // requested service type
-  this.service_code = service_code; // visible code on the ticket
-  this.waiting_time = waiting_time; // estimated waiting time
+export function Ticket(ticket_id, service_name, service_id) {
+  this.ticket_id = ticket_id;                  
+  this.service_name = service_name; 
+  this.service_id = service_id; 
 }
 
 // Counter (desk)
-export function Counter(id) {
-  this.id = id;
+export function Counter(counter_id,name) {
+  this.name=name;
+  this.counter_id = counter_id;
   this.types_service = []; // array of Record_counter objects, one per supported service
 
   // add a service type that this counter can handle
   this.addService = (service_id) => {
-    if (!this.types_service.find(s => s.type === service_id)) {
-      this.types_service.push(new Record_counter(service_id, 0));
-    }
+    this.types_service.push(new Record_counter(service_id, 0));
   };
 
-  // clear all services
-  this.empty = () => {
-    this.types_service = [];
-  };
-
-  // increment the number of customers served for a specific service type
-  this.incrementServiceCount = (service_id) => {
-    const rec = this.types_service.find(r => r.type === service_id);
-    if (rec) rec.count++;
-  };
 }
+
+
+
+
+
+
+
 
 
 

@@ -3,7 +3,13 @@
 terminal 1: cd server;npm i;nodemon index.mjs
 terminal 2: cd client;npm i;npm run dev 
 
-# Office Queue
+# DB
+
+counter_services ("id","counter_id","service_id")
+counters ("counter_id","name")
+services ("service_id","name","avg_service_time","tag")
+tickets ("ticket_id","code","service_id")
+
 
 ## Counters, types and initial configuration
 - The office consists of a set of counters that are usually identified by numbers

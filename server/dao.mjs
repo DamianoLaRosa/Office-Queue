@@ -15,7 +15,7 @@ export const getAllServices = () => {
       if (err) {
         return reject(err);
       }
-      const services = rows.map(row => new Service(row.service_id, row.name, row.avg_service_time));
+      const services = rows.map(row => new Service(row.service_id, row.name, row.avg_service_time, row.tag));
       return resolve(services);
     });
   });
@@ -32,20 +32,11 @@ export const insertTicket = (serviceId) => {
       if (err) return reject(err);
       if (!serviceRow) return resolve({ error: 'Service not found' });
 
-      // Calculate waiting time
-      const sqlWaiting = 'SELECT COUNT(*) AS count FROM tickets WHERE service_id = ?';
-      db.get(sqlWaiting, [serviceId], (err, countRow) => {
-        if (err) return reject(err);
-
-        //problem: I need statistics , see formula
-        const waitingTime = (countRow.count + 0.5) * serviceRow.time;
-
-        const sqlInsert = 'INSERT INTO tickets(service_id, waiting_time) VALUES (?, ?, ?)';
-        db.run(sqlInsert, [serviceId, waitingTime], function (err) {
+      const sqlInsert = 'INSERT INTO tickets (code,service_id) VALUES (?, ?)';
+        db.run(sqlInsert, [serviceRow.tag , serviceId], function (err) {
           if (err) return reject(err);
-          return resolve(new Ticket(this.lastID, serviceId, serviceRow.name , waitingTime));
+          return resolve(new Ticket(this.lastID, serviceRow.name, serviceId));
         });
-      });
     });
   });
 };
