@@ -56,3 +56,57 @@ export const deleteTicket = (ticketId) => {
   });
 };
 
+/*COUNTERS*/
+//find service assigned to counter
+export const getServiceByCounter = (counterId) => {
+  return new Promise((resolve, reject) => {
+    const sql = `SELECT service_id
+                 FROM counter_services
+                 WHERE counter_id = ?`;
+    db.all(sql, [counterId], (err, rows) => {
+      if (err) {
+        return reject(err);
+      }
+       if (rows.length === 0) {
+        return resolve([]);
+      }
+      const services = rows.map(row => row.service_id);
+      return resolve(services);
+    });
+  });
+};
+
+//get longest queue and select next ticket
+export const getLongestQueue = (serviceIds) => {
+  return new Promise((resolve, reject) => {
+    const sql = `
+        SELECT t.service_id, s.name, s.service_time, COUNT(t.id) as queue_length
+        FROM tickets t
+        JOIN services s ON t.service_id = s.id
+        WHERE t.service_id IN (${serviceIds.join(',')})
+        GROUP BY t.service_id
+        ORDER BY queue_length DESC, s.service_time ASC
+        LIMIT 1
+      `;
+
+    db.get(sql, [], (err, row) => {
+      if (err) {
+        return reject(err);
+      } 
+      if(!row){
+        return resolve(null); // No tickets found for the given services
+      }
+    });
+
+    const query = `SELECT * FROM tickets WHERE service_id = ? ORDER BY id ASC LIMIT 1`;
+    db.get(query, [row.service_id], (err, ticketRow) => {
+      if (err) {
+        return reject(err);
+      }
+      if (!ticketRow) {
+        return resolve(null); // No waiting ticket found for the longest queue
+      }
+      return resolve(ticketRow);
+    });  
+  });
+};

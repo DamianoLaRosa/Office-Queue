@@ -55,6 +55,5 @@ app.post('/api/tickets/:serviceId', async (req, res) => {
   }
 });
 
-
 // activate server
 app.listen(port, () => { console.log(`API server started at http://localhost:${port}`); });
