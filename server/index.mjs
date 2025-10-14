@@ -33,12 +33,27 @@ app.get('/api/services', async (req, res) => {
   try {
     const services = await getAllServices();
     return res.status(200).json(services); 
-    //maybe you pass to the client only the name of the service and the waiting time, not the id
   } catch (err) {
     return res.status(500).json({ error: 'Internal server error' });
   }
 });
 
+// POST /api/tickets/:serviceId
+app.post('/api/tickets/:serviceId', async (req, res) => {
+  try {
+    const serviceId = req.params.serviceId;
+    const result = await insertTicket(serviceId);
+
+    if (result.error) {
+      return res.status(404).json(result); // Service not found
+    }
+
+    return res.status(201).json(result); // Ticket created
+  } catch (err) {
+    console.error('Error inserting ticket:', err);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 
 // activate server

@@ -22,7 +22,6 @@ export const getAllServices = () => {
 };
 
 
-
 /** TICKETS **/
 export const insertTicket = (serviceId) => {
   return new Promise((resolve, reject) => {
