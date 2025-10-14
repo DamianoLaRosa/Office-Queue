@@ -40,3 +40,20 @@ export const insertTicket = (serviceId) => {
     });
   });
 };
+
+export const deleteTicket = (ticketId) => {
+  return new Promise((resolve, reject) => {
+    const sql = 'DELETE FROM tickets WHERE ticket_id = ?';
+    db.run(sql, [ticketId], function(err) {
+      if (err) {
+        return reject(err);
+      }
+      // this.changes = number of rows eliminated
+      if (this.changes === 0) {
+        return resolve({ error: 'Ticket not found' });
+      }
+      return resolve({ success: true });
+    });
+  });
+};
+
