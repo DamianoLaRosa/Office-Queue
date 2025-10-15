@@ -82,7 +82,7 @@ export const getLongestQueue = (serviceIds) => {
     const sql = `
         SELECT t.service_id, s.name, s.service_time, COUNT(t.id) as queue_length
         FROM tickets t
-        JOIN services s ON t.service_id = s.id
+        JOIN services s ON t.service_id = s.service_id
         WHERE t.service_id IN (${serviceIds.join(',')})
         GROUP BY t.service_id
         ORDER BY queue_length DESC, s.service_time ASC
@@ -94,19 +94,19 @@ export const getLongestQueue = (serviceIds) => {
         return reject(err);
       } 
       if(!row){
-        return resolve(null); // No tickets found for the given services
+        return resolve({ error: 'Ticket not found for the given services' }); // No tickets found for the given services
       }
-    });
 
-    const query = `SELECT * FROM tickets WHERE service_id = ? ORDER BY id ASC LIMIT 1`;
-    db.get(query, [row.service_id], (err, ticketRow) => {
-      if (err) {
-        return reject(err);
-      }
-      if (!ticketRow) {
-        return resolve(null); // No waiting ticket found for the longest queue
-      }
-      return resolve(ticketRow);
-    });  
+      const query = `SELECT * FROM tickets WHERE service_id = ? ORDER BY id ASC LIMIT 1`;
+      db.get(query, [row.service_id], (err, ticketRow) => {
+        if (err) {
+          return reject(err);
+        }
+        if (!ticketRow) {
+          return resolve({ error: 'Ticket not found' }); // No waiting ticket found for the longest queue
+        }
+        return resolve(ticketRow);
+      });
+    });
   });
 };

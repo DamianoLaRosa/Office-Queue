@@ -2,7 +2,7 @@
 import express from 'express';
 import morgan from 'morgan';
 import {check, validationResult} from 'express-validator';
-import {getAllServices,insertTicket} from './dao.mjs';
+import {getAllServices,insertTicket,deleteTicket,getServiceByCounter,getLongestQueue} from './dao.mjs';
 import { Service,Record_counter,Ticket,Counter,QueueSystem } from './Gmodels.mjs';   
 import cors from 'cors';
 
@@ -54,6 +54,9 @@ app.post('/api/tickets/:serviceId', async (req, res) => {
     return res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+
+
 
 // activate server
 app.listen(port, () => { console.log(`API server started at http://localhost:${port}`); });
