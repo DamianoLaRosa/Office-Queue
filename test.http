@@ -2,4 +2,12 @@
 GET http://localhost:3001/api/services
 Content-Type: application/json
 
-###
+
+### 2. POST create ticket (serviceId = 1)
+POST http://localhost:3001/api/tickets/3
+Content-Type: application/json
+
+
+### 3. POST create ticket for non-existing service (404 expected)
+POST http://localhost:3001/api/tickets/9999
+Content-Type: application/json
