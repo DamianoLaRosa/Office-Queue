@@ -2,7 +2,7 @@
 import express from 'express';
 import morgan from 'morgan';
 import {check, validationResult} from 'express-validator';
-import {getAllServices,insertTicket,deleteTicket,getServiceByCounter,getLongestQueue} from './dao.mjs';
+import {getAllServices,insertTicket,deleteTicket,getServiceByCounter,getLongestQueue, getAllCounters} from './dao.mjs';
 import { Service,Record_counter,Ticket,Counter,QueueSystem } from './Gmodels.mjs';   
 import cors from 'cors';
 
@@ -33,6 +33,16 @@ app.get('/api/services', async (req, res) => {
   try {
     const services = await getAllServices();
     return res.status(200).json(services); 
+  } catch (err) {
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// GET /api/counters
+app.get('/api/counters', async (req, res) => {
+  try {
+    const counters = await getAllCounters();
+    return res.status(200).json(counters); 
   } catch (err) {
     return res.status(500).json({ error: 'Internal server error' });
   }

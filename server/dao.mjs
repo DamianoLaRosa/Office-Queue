@@ -27,7 +27,7 @@ export const insertTicket = (serviceId) => {
   return new Promise((resolve, reject) => {
     
     const sqlService = 'SELECT * FROM services WHERE service_id = ?';
-    db.get(sqlService, [serviceId], (err, serviceRow) => { //controll on the existance of service_id
+    db.get(sqlService, [serviceId], (err, serviceRow) => { //control on the existance of service_id
       if (err) return reject(err);
       if (!serviceRow) return resolve({ error: 'Service not found' });
 
@@ -57,6 +57,20 @@ export const deleteTicket = (ticketId) => {
 };
 
 /*COUNTERS*/
+//get all counters
+export const getAllCounters=()=>{
+  return new Promise((resolve, reject) => {
+    const sql = 'SELECT * FROM counters';
+    db.all(sql, [], (err, rows) => {
+      if (err) {
+        return reject(err);
+      }
+      const counters = rows.map(row => new Counter(row.counter_id, row.name));
+      return resolve(counters);
+    });
+  });
+};
+
 //find service assigned to counter
 export const getServiceByCounter = (counterId) => {
   return new Promise((resolve, reject) => {
