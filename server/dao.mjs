@@ -80,12 +80,12 @@ export const getServiceByCounter = (counterId) => {
 export const getLongestQueue = (serviceIds) => {
   return new Promise((resolve, reject) => {
     const sql = `
-        SELECT t.service_id, s.name, s.service_time, COUNT(t.id) as queue_length
+        SELECT t.service_id, s.name, s.avg_service_time, COUNT(t.service_id) as queue_length
         FROM tickets t
         JOIN services s ON t.service_id = s.service_id
         WHERE t.service_id IN (${serviceIds.join(',')})
         GROUP BY t.service_id
-        ORDER BY queue_length DESC, s.service_time ASC
+        ORDER BY queue_length DESC, s.avg_service_time ASC
         LIMIT 1
       `;
 
@@ -97,7 +97,7 @@ export const getLongestQueue = (serviceIds) => {
         return resolve({ error: 'Ticket not found for the given services' }); // No tickets found for the given services
       }
 
-      const query = `SELECT * FROM tickets WHERE service_id = ? ORDER BY id ASC LIMIT 1`;
+      const query = `SELECT * FROM tickets WHERE service_id = ? ORDER BY ticket_id ASC LIMIT 1`;
       db.get(query, [row.service_id], (err, ticketRow) => {
         if (err) {
           return reject(err);

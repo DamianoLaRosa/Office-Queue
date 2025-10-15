@@ -50,7 +50,37 @@ app.post('/api/tickets/:serviceId', async (req, res) => {
 
     return res.status(201).json(result); // Ticket created
   } catch (err) {
-    console.error('Error inserting ticket:', err);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+// POST /api/counters/:counterId/next-ticket
+app.post('/api/counters/:counterId/next-ticket', async (req, res) => {
+  try {
+    const counterId = req.params.counterId;
+    
+    const serviceIds = await getServiceByCounter(counterId); // Find all services assigned to the counter
+
+    if (serviceIds.length === 0) {
+      return res.status(404).json({ error: 'No services assigned to this counter' });
+    }
+
+    const nextTicket = await getLongestQueue(serviceIds); // Find the next ticket to serve
+
+    if (nextTicket.error) {
+      return res.status(404).json(nextTicket); // No ticket found for the given services
+    }
+
+    const deleteResult = await deleteTicket(nextTicket.ticket_id); // Delete the selected ticket
+
+    if (deleteResult.error) {
+      return res.status(404).json(deleteResult); // Ticket not found (should be rare)
+    }
+
+    return res.status(200).json(nextTicket); // Respond with the ticket that was served
+
+  } catch (err) {
     return res.status(500).json({ error: 'Internal server error' });
   }
 });
