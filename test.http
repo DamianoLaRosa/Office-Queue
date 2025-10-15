@@ -1,0 +1,5 @@
+### 1. GET all services
+GET http://localhost:3001/api/services
+Content-Type: application/json
+
+###
