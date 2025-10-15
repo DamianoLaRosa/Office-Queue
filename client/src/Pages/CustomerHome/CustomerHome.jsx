@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "./CustomerHome.module.css";
-import API from "../../API/API.mjs";
+import API from "../../API/API.js";
 
 function CustomerHome() {
   const [services, setServices] = useState([]);
