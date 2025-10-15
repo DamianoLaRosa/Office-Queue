@@ -20,3 +20,31 @@
   background-color: var(--accent-hover);
   color: var(--static-white);
 }
+
+h1 {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 36px;
+  color: var(--foreground-default);
+}
+
+h2 {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 32px;
+  color: var(--foreground-default);
+}
+
+h3 {
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 28px;
+  color: var(--foreground-default);
+}
+
+p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--foreground-default);
+}

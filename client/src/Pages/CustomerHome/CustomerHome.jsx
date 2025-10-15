@@ -30,6 +30,7 @@ function CustomerHome() {
   const handleServiceSelect = async (serviceId) => {
     try {
       const ticket = await API.createTicket(serviceId);
+      console.log(ticket);
       setCreatedTicket(ticket);
       setNotification(null); // Clear any existing notifications
     } catch (err) {
@@ -54,10 +55,7 @@ function CustomerHome() {
       <div className={styles.ticketDisplay}>
         <div className={styles.ticketContainer}>
           <h1 className={styles.ticketTitle}>Your Ticket</h1>
-          <div className={styles.ticketNumber}>{createdTicket.code}</div>
-          <p className={styles.ticketService}>
-            Service: {createdTicket.service_name}
-          </p>
+          <div className={styles.ticketNumber}>{createdTicket.ticket_id}</div>
           <button className="btn btn-primary" onClick={handleBackToServices}>
             Back
           </button>
@@ -90,7 +88,7 @@ function CustomerHome() {
 
   return (
     <div className="page-container">
-      <h1>Select your service</h1>
+      <h1>Available Services</h1>
 
       {notification && (
         <div className={`${styles.notification} ${styles[notification.type]}`}>
@@ -108,20 +106,17 @@ function CustomerHome() {
 
       <div className={styles.serviceList}>
         {services.map((service) => (
-          <div key={service.service_id} className={styles.serviceCard}>
+          <div
+            key={service.service_id}
+            className={styles.serviceCard}
+            onClick={() => handleServiceSelect(service.service_id)}
+          >
             <div className={styles.serviceInfo}>
               <h3 className={styles.serviceName}>{service.name}</h3>
-              <p className={styles.serviceTag}>Type: {service.tag}</p>
               <p className={styles.serviceTime}>
                 Average time: {service.avg_service_time} minutes
               </p>
             </div>
-            <button
-              className="btn btn-primary"
-              onClick={() => handleServiceSelect(service.service_id)}
-            >
-              Get Ticket
-            </button>
           </div>
         ))}
       </div>
