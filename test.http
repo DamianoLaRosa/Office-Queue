@@ -11,6 +11,10 @@ Content-Type: application/json
 POST http://localhost:3001/api/tickets/9999
 Content-Type: application/json
 
-### 3. POST call next ticket for existing counter
+### 4. POST call next ticket for existing counter
 POST http://localhost:3001/api/counters/2/next-ticket
+Content-Type: application/json
+
+### 5. GET all counters
+GET http://localhost:3001/api/counters
 Content-Type: application/json
