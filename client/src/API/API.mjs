@@ -33,10 +33,10 @@ const getCounters = async () => {
   } 
 };
 
-// GET /api/counters/:counterId/next-ticket
+// POST /api/counters/:counterId/next-ticket
 const getNextTicketForCounter = async (counterId) => {
   const response = await fetch(`${SERVER_URL}/api/counters/${counterId}/next-ticket`, {
-    method: 'GET',
+    method: 'POST',
     headers: { "Content-Type": "application/json" },
     credentials: 'include',
   });
