@@ -1,8 +1,9 @@
 // import
 import express from 'express';
+import sqlite3 from 'sqlite3';
 import morgan from 'morgan';
 import {check, validationResult} from 'express-validator';
-import {getAllServices,insertTicket,deleteTicket,getServiceByCounter,getLongestQueue} from './dao.mjs';
+import {getAllServices,insertTicket,deleteTicket,getServiceByCounter,getLongestQueue, getAllCounters} from './dao.mjs';
 import { Service,Record_counter,Ticket,Counter,QueueSystem } from './Gmodels.mjs';   
 import cors from 'cors';
 
@@ -13,6 +14,12 @@ import session from 'express-session';
 // init
 const app = express();
 const port = 3001;
+
+//open database
+const db = new sqlite3.Database('OfficeQueue.db', (err) => {
+  if (err) throw err;
+});
+
 
 // middleware
 app.use(express.json());
@@ -31,8 +38,18 @@ app.use(cors(corsOptions));
 // GET /api/services
 app.get('/api/services', async (req, res) => {
   try {
-    const services = await getAllServices();
+    const services = await getAllServices(db);
     return res.status(200).json(services); 
+  } catch (err) {
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// GET /api/counters
+app.get('/api/counters', async (req, res) => {
+  try {
+    const counters = await getAllCounters(db);
+    return res.status(200).json(counters); 
   } catch (err) {
     return res.status(500).json({ error: 'Internal server error' });
   }
@@ -42,7 +59,7 @@ app.get('/api/services', async (req, res) => {
 app.post('/api/tickets/:serviceId', async (req, res) => {
   try {
     const serviceId = req.params.serviceId;
-    const result = await insertTicket(serviceId);
+    const result = await insertTicket(serviceId, db);
 
     if (result.error) {
       return res.status(404).json(result); // Service not found
@@ -60,19 +77,19 @@ app.post('/api/counters/:counterId/next-ticket', async (req, res) => {
   try {
     const counterId = req.params.counterId;
     
-    const serviceIds = await getServiceByCounter(counterId); // Find all services assigned to the counter
+    const serviceIds = await getServiceByCounter(counterId, db); // Find all services assigned to the counter
 
     if (serviceIds.length === 0) {
       return res.status(404).json({ error: 'No services assigned to this counter' });
     }
 
-    const nextTicket = await getLongestQueue(serviceIds); // Find the next ticket to serve
+    const nextTicket = await getLongestQueue(serviceIds, db); // Find the next ticket to serve
 
     if (nextTicket.error) {
       return res.status(404).json(nextTicket); // No ticket found for the given services
     }
 
-    const deleteResult = await deleteTicket(nextTicket.ticket_id); // Delete the selected ticket
+    const deleteResult = await deleteTicket(nextTicket.ticket_id, db); // Delete the selected ticket
 
     if (deleteResult.error) {
       return res.status(404).json(deleteResult); // Ticket not found (should be rare)

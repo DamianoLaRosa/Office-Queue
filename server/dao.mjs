@@ -1,14 +1,8 @@
-import sqlite3 from 'sqlite3';
 import { Service,Record_counter,Ticket,Counter,QueueSystem } from './Gmodels.mjs';   
 import crypto from 'crypto';
 
-//open database
-const db = new sqlite3.Database('OfficeQueue.db', (err) => {
-  if (err) throw err;
-});
-
 /** SERVICES **/
-export const getAllServices = () => {
+export const getAllServices = (db) => {
   return new Promise((resolve, reject) => {
     const sql = 'SELECT * FROM services';
     db.all(sql, [], (err, rows) => {
@@ -23,11 +17,11 @@ export const getAllServices = () => {
 
 
 /** TICKETS **/
-export const insertTicket = (serviceId) => {
+export const insertTicket = (serviceId, db) => {
   return new Promise((resolve, reject) => {
     
     const sqlService = 'SELECT * FROM services WHERE service_id = ?';
-    db.get(sqlService, [serviceId], (err, serviceRow) => { //controll on the existance of service_id
+    db.get(sqlService, [serviceId], (err, serviceRow) => { //control on the existance of service_id
       if (err) return reject(err);
       if (!serviceRow) return resolve({ error: 'Service not found' });
 
@@ -40,7 +34,7 @@ export const insertTicket = (serviceId) => {
   });
 };
 
-export const deleteTicket = (ticketId) => {
+export const deleteTicket = (ticketId, db) => {
   return new Promise((resolve, reject) => {
     const sql = 'DELETE FROM tickets WHERE ticket_id = ?';
     db.run(sql, [ticketId], function(err) {
@@ -57,8 +51,22 @@ export const deleteTicket = (ticketId) => {
 };
 
 /*COUNTERS*/
+//get all counters
+export const getAllCounters=(db)=>{
+  return new Promise((resolve, reject) => {
+    const sql = 'SELECT * FROM counters';
+    db.all(sql, [], (err, rows) => {
+      if (err) {
+        return reject(err);
+      }
+      const counters = rows.map(row => new Counter(row.counter_id, row.name));
+      return resolve(counters);
+    });
+  });
+};
+
 //find service assigned to counter
-export const getServiceByCounter = (counterId) => {
+export const getServiceByCounter = (counterId, db) => {
   return new Promise((resolve, reject) => {
     const sql = `SELECT service_id
                  FROM counter_services
@@ -77,7 +85,7 @@ export const getServiceByCounter = (counterId) => {
 };
 
 //get longest queue and select next ticket
-export const getLongestQueue = (serviceIds) => {
+export const getLongestQueue = (serviceIds, db) => {
   return new Promise((resolve, reject) => {
     const sql = `
         SELECT t.service_id, s.name, s.avg_service_time, COUNT(t.service_id) as queue_length
