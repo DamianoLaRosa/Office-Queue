@@ -8,7 +8,7 @@ const getServices = async () => {
 
   if (response.ok) {
     const json = await response.json();
-    return json; // return raw JSON array of services
+    return json;
   } else {
     throw new Error("Failed to fetch services");
   }
@@ -21,7 +21,7 @@ const getCounters = async () => {
   });
   if (response.ok) {
     const json = await response.json();
-    return json.map((c) => new Counter(c.counter_id, c.name, c.service_ids)); //array of counters
+    return json;
   } else {
     throw new Error("Failed to fetch counters");
   }
@@ -39,7 +39,7 @@ const getNextTicketForCounter = async (counterId) => {
   );
   if (response.ok) {
     const json = await response.json();
-    return new Ticket(json.ticket_id, json.service_name, json.service_id);
+    return json;
   } else if (response.status === 404) {
     const err = await response.json();
     throw new Error(err.error || "Counter not found");
