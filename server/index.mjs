@@ -3,8 +3,7 @@ import express from 'express';
 import sqlite3 from 'sqlite3';
 import morgan from 'morgan';
 import {check, validationResult} from 'express-validator';
-import {getAllServices,insertTicket,deleteTicket,getServiceByCounter,getLongestQueue, getAllCounters} from './dao.mjs';
-import { Service,Record_counter,Ticket,Counter,QueueSystem } from './Gmodels.mjs';   
+import {getAllServices,insertTicket,deleteTicket,getServiceByCounter,getLongestQueue, getAllCounters} from './dao.mjs';  
 import cors from 'cors';
 
 import passport from 'passport';

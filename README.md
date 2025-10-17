@@ -1,3 +1,12 @@
+# Commands
+
+terminal 1: cd client;npm i;npm run dev   
+terminal 2: cd server;npm i;nodemon index.mjs   
+
+coverage: node --experimental-test-coverage --test
+
+
+
 # DB
 
 counter_services ("id","counter_id","service_id")

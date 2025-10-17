@@ -1,4 +1,4 @@
-import { Service,Record_counter,Ticket,Counter,QueueSystem } from './Gmodels.mjs';   
+import { Service,Ticket,Counter } from './Gmodels.mjs';   
 import crypto from 'crypto';
 
 /** SERVICES **/
