@@ -27,6 +27,7 @@ sections:
 
 ### Detailed statistics
 
+#### Singular tasks
 | Story  | # Tasks | Story points | Hours est. | Hours actual |
 |--------|---------|--------|------------|--------------|
 | _Uncategorized_   |   OQ 30 - Code Review     |   -    |   6h         |      4h    |
@@ -49,6 +50,13 @@ sections:
 | 2   | OQ 21 - BackEnd API        |   3    |     2h       |   2h           |
 | 2    |  OQ 28 - Testing story 02       |   3     |    6h        |    3h          |  
 | 2    |  OQ 22 - Client side API      |     3   |    1h        |      1h        | 
+
+#### Summary 
+| Story  | # Tasks | Story points | Hours est. | Hours actual |
+|--------|---------|--------|------------|--------------|
+| _Uncategorized_   |   5   |   -    |   28h         |      34h    |
+| 1   |   7       |  3     |     13h       |      11.25h        |
+| 2    |   8    |     3   |    13h        |      10.75h        | 
 
 - Hours per task average, standard deviation (estimate and actual)
 
