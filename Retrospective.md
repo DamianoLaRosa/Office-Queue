@@ -106,6 +106,8 @@ RETROSPECTIVE (Team 01)
 
   > To keep constant communication with one another.
 
+  > Assigning a task to not more than two people -> less coordination problems
+
 - Improvement goals for the next sprint and how to achieve them (technical tasks, team coordination, etc.)
 
   > Better comunication
