@@ -56,7 +56,7 @@ RETROSPECTIVE (Team 01)
 | 1   |   7       |  3     |     13h       |      11.25h        |
 | 2    |   8    |     3   |    13h        |      10.75h        | 
 
-- Hours per task average, standard deviation (estimate and actual)
+- Hours per task average, standard deviation (estimate and actual) calculated on the singular tasks
 
 |            | Mean | StDev |
 |------------|------|-------|
