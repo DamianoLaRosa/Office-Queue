@@ -81,7 +81,6 @@ RETROSPECTIVE (Team 01)
 - E2E testing:
   - Total hours estimated -> 1 h 
   - Total hours spent -> 1 h 
-  - Nr of test cases -> 2
 
   > the testing hours were not divided in the tracker so we assigned 1 h to E2E testing from the actual hours and the estimated hours
 
