@@ -104,9 +104,11 @@ RETROSPECTIVE (Team 01)
 
 - What lessons did you learn (both positive and negative) in this sprint?
 
-  > To keep constant communication with one another.
+  > To keep constant communication with one another
 
   > Assigning a task to not more than two people -> less coordination problems
+
+  > Assigning exactly 60 h (budget)
 
 - Improvement goals for the next sprint and how to achieve them (technical tasks, team coordination, etc.)
 
